@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="stylesheet" href="perfil.css">
+</head>
+<body>
+    <h1>Meu Perfil</h1>
+    <hr>
+    <table>
+        <tr>
+            <td rowspan="3" class="photo-gallery">
+                <!-- Fotos de perfil -->
+                <img src="fotodoperfil.png" alt="Foto de perfil 1" class="profile-photo active">
+                <img src="imagem2.png" alt="Foto de perfil 2" class="profile-photo">
+                <img src="imagem3.png" alt="Foto de perfil 3" class="profile-photo">
+                <div class="photo-buttons">
+                    <button onclick="showPreviousPhoto()">◀️</button>
+                    <button onclick="showNextPhoto()">▶️</button>
+                </div>
+            </td>
+            <td><strong>Nome:</strong> Antônio Augusto</td>
+        </tr>
+        <tr>
+            <td><strong>RA:</strong> 323125608</td>
+        </tr>
+        <tr>
+            <td><strong>Curso e Período atual:</strong> Análise e Desenvolvimento de Sistemas</td>
+        </tr>
+        <tr>
+            <td colspan="2"><strong>Endereço:</strong> Rua Sol da Bolívia 108</td>
+        </tr>
+        <tr>
+            <td colspan="2"><strong>Email:</strong> 
+                <input type="email" id="email" placeholder="antonioaugusto2356@gmail.com" onblur="validateEmail()">
+                <span id="emailError" style="color: red;"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><strong>CPF:</strong> 
+                <input type="text" id="cpf" placeholder="Digite seu CPF" onblur="validateCPF()">
+                <span id="cpfError" style="color: red;"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><strong>Descrição Pessoal:</strong> 
+                Sou uma pessoa que se interessa muito por jogos e programação. Gosto de passar meu tempo livre com minha família me divertindo.
+                <div>
+                    <input type="text" id="newInfo" placeholder="Nova informação">
+                    <button onclick="addPersonalInfo()">Adicionar Informação</button>
+                </div>
+                <ul id="personalInfoList"></ul>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><strong>Descrição Profissional/Acadêmica:</strong> Estou começando agora nesse meio de programação. Atualmente não trabalho com TI, mas venho fazendo cursos para me tornar um bom profissional na área de front-end.</td>
+        </tr>
+        <tr>
+            <td colspan="2"><strong>Unidades Curriculares:</strong>
+                <ul id="ucList">
+                    <!-- Exemplo de UC inicial -->
+                    <li>
+                        Lógica de Programação 
+                        <button onclick="moveUp(this)">⬆️</button>
+                        <button onclick="moveDown(this)">⬇️</button>
+                    </li>
+                </ul>
+                <button onclick="addUC()">Adicionar UC</button>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        // Função para alternar entre fotos
+        let currentPhotoIndex = 0;
+        const photos = document.querySelectorAll('.profile-photo');
+
+        function showPhoto(index) {
+            photos[currentPhotoIndex].classList.remove('active');
+            currentPhotoIndex = (index + photos.length) % photos.length;
+            photos[currentPhotoIndex].classList.add('active');
+        }
+
+        function showNextPhoto() {
+            showPhoto(currentPhotoIndex + 1);
+        }
+
+        function showPreviousPhoto() {
+            showPhoto(currentPhotoIndex - 1);
+        }
+
+        // Função para adicionar UC
+        function addUC() {
+            const ucName = prompt("Digite o nome da UC:");
+            if (ucName) {
+                const ucList = document.getElementById("ucList");
+                const li = document.createElement("li");
+                li.innerHTML = `${ucName} 
+                    <button onclick="moveUp(this)">⬆️</button> 
+                    <button onclick="moveDown(this)">⬇️</button>`;
+                ucList.appendChild(li);
+            }
+        }
+
+        // Função para mover UCs para cima e para baixo
+        function moveUp(button) {
+            const li = button.parentNode;
+            const prev = li.previousElementSibling;
+            if (prev) li.parentNode.insertBefore(li, prev);
+        }
+
+        function moveDown(button) {
+            const li = button.parentNode;
+            const next = li.nextElementSibling;
+            if (next) li.parentNode.insertBefore(next, li);
+        }
+
+        // Validação do CPF
+        function validateCPF() {
+            const cpfInput = document.getElementById("cpf");
+            const cpf = cpfInput.value;
+            const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+            const cpfError = document.getElementById("cpfError");
+
+            if (!cpfRegex.test(cpf)) {
+                cpfError.textContent = "CPF inválido! Use o formato: 000.000.000-00";
+            } else {
+                cpfError.textContent = "";
+            }
+        }
+
+        // Validação do Email
+        function validateEmail() {
+            const emailInput = document.getElementById("email");
+            const email = emailInput.value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emailError = document.getElementById("emailError");
+
+            if (!emailRegex.test(email)) {
+                emailError.textContent = "Email inválido!";
+            } else {
+                emailError.textContent = "";
+            }
+        }
+
+        // Adicionar nova informação à descrição pessoal
+        function addPersonalInfo() {
+            const newInfo = document.getElementById("newInfo").value;
+            const infoList = document.getElementById("personalInfoList");
+
+            if (newInfo) {
+                const li = document.createElement("li");
+                li.textContent = newInfo;
+                infoList.appendChild(li);
+                document.getElementById("newInfo").value = ""; // Limpa o campo de entrada
+            }
+        }
+    </script>
+     <p> Clique para abrir o <a href="https://github.com/antonioaugusto22" target="_blank">GitHub</a>.</p>
+     <br>
+     <p> Clique para abrir o <a href="https://www.linkedin.com/in/ant%C3%B4nio-augusto-augusto-59106a268/" target="_blank">Linkedin</a>.</p>
+</body>
+</html>
